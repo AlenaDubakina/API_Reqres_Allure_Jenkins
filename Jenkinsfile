@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        BASE_URI = 'https://reqres.in'
+        API_KEY = credentials('api-key')
+    }
+
     triggers {
         cron('H 9 * * 1-5')
     }
@@ -10,12 +15,24 @@ pipeline {
         jdk 'JDK_25'
     }
     stages {
+
         stage('Checkout') {
             steps {
                 echo "Geting the project from GitHub"
                 git url: 'https://github.com/AlenaDubakina/API_Reqres_Allure_Jenkins', branch: 'main'
             }
         }
+
+                stage('Generate config.properties') {
+                    steps {
+                        sh '''
+                            # Создаем или перезаписываем файл config.properties
+                            echo "base.uri=${BASE_URI}" > src/main/resources/config.properties
+                            echo "api.key=${API_KEY}" >> src/main/resources/config.properties
+                        '''
+                        echo 'Файл src/main/resources/config.properties успешно создан.'
+                    }
+                }
 
         stage('Build & Test') {
             steps {
