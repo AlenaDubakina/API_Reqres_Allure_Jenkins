@@ -53,13 +53,26 @@ pipeline {
 
     post {
        always {
-            echo "Pipeline finished."
+            echo 'Pipeline finished.'
        }
        success {
             echo 'Pipeline succeeded!'
+            notifyTelegram('SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}')
        }
        failure {
-            echo "Pipeline failed."
+            echo 'Pipeline failed.'
+            notifyTelegram('FAIlED: ${env.JOB_NAME} #${env.BUILD_NUMBER}')
        }
     }
 }
+
+    def notifyTelegram(message){
+    withCredentials([string(credentialsId: 'telegram-token', variable: 'TELEGRAM_TOKEN'),
+    string(credentialsId: 'telegram-chat-id', variable: 'TELEGRAM_CHAT_ID')])
+    {
+     sh ''' curl -s -X POST https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage \
+                    -d chat_id=${TELEGRAM_CHAT_ID} \
+                    -d text="${message}"
+        '''
+    }
+    }
