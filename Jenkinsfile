@@ -40,20 +40,15 @@ pipeline {
                 sh 'mvn clean test'
             }
         }
-
-        stage('Allure Report') {
-            steps {
-                echo "Allure report generation"
-                allure includeProperties: false,
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'target/allure-results']]
-            }
-        }
     }
 
     post {
        always {
-            echo 'Pipeline finished.'
+                echo "Allure report generation"
+                allure includeProperties: false,
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'target/allure-results']]
+                echo 'Pipeline finished.'
        }
        success {
             echo 'Pipeline succeeded!'
