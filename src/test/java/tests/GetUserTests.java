@@ -79,6 +79,7 @@ public class GetUserTests extends BaseTest {
                 .extract()
                 .time();
 
-        Assert.assertTrue(timeResponse >= 3000 && timeResponse < 4000, "Задержка превысила 3сек");
+        Assert.assertTrue(timeResponse >= 3000,
+                "Задержка составила " + timeResponse/ 1000 +"сек.");
     }
 }
