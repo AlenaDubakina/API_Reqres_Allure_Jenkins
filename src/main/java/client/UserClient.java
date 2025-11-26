@@ -27,4 +27,12 @@ public class UserClient {
                 .when()
                 .post(endpoint);
     }
+
+    @Step("Отправить delete запрос с удалением пользователя")
+    public Response deleteRequest(String endpoint) {
+        return given()
+                .spec(ApiConfig.requestSpecBuilder)
+                .when()
+                .delete(endpoint);
+    }
 }
