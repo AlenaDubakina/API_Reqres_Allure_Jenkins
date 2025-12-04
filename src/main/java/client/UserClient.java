@@ -5,6 +5,8 @@ import io.qameta.allure.Step;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import models.Login;
+import models.UpdateUser;
+import models.User;
 
 import static io.restassured.RestAssured.given;
 
@@ -34,5 +36,15 @@ public class UserClient {
                 .spec(ApiConfig.requestSpecBuilder)
                 .when()
                 .delete(endpoint);
+    }
+
+    @Step("Отправить put запрос с обновлением данных пользователя")
+    public Response updateRequest(String endpoint, UpdateUser updateUser) {
+        return given()
+                .spec(ApiConfig.requestSpecBuilder)
+                .contentType(ContentType.JSON)
+                .body(updateUser)
+                .when()
+                .put(endpoint);
     }
 }
