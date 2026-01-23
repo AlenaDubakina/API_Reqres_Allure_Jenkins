@@ -16,7 +16,7 @@ public class PutUserTests extends BaseTest {
 
     @Test
     @Description("Обновление данных у пользователя")
-    public void updateUsertest() {
+    public void updateUserTest() {
         userClient.updateRequest("/api/users/2", userUpdate)
                 .then()
                 .statusCode(200)

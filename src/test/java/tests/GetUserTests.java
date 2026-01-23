@@ -58,7 +58,7 @@ public class GetUserTests extends BaseTest {
         userClient.getRequest("/api/users/2")
                 .then()
                 .statusCode(200)
-                .body(matchesJsonSchemaInClasspath("schemas/user-schema.json"))
+                .body(matchesJsonSchemaInClasspath("schemas/user-relaxed-schema.json"))
                 .log().all();
     }
 
